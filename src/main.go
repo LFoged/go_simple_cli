@@ -2,12 +2,14 @@ package main
 
 import (
 	"booking_app_yt/src/helpers"
-	hlp "booking_app_yt/src/helpers"
 	mdl "booking_app_yt/src/models"
 	srv "booking_app_yt/src/services"
 	"fmt"
+	"sync"
 	"time"
 )
+
+var wg = sync.WaitGroup{}
 
 func main() {
 	const conferenceName = "Shmazinga Bazinga"
@@ -36,18 +38,21 @@ func main() {
 		remainingTickets -= *userNumTickets
 		bookings[bookingRef] = userBooking
 
-		fmt.Printf("\n\nHere is your booking:\n%v.\n\nA confirmation has been sent to %s", userBooking, userEmail)
+		fmt.Printf("\n\nHere is your booking:\n%v.\n\nA confirmation will be sent to %s", userBooking, userEmail)
 		fmt.Println("\n\n_______________________________________")
+
+		if remainingTickets == 0 {
+			fmt.Println("\n\nWE'RE FULLY BOOKED!!!")
+		} else if !srv.MakeNewBooking() {
+			fmt.Println("\n\nSee you at the conference!")
+			break
+		}
 	}
 
-	fmt.Println("\n\nWE'RE FULLY BOOKED!!!")
+	// time delay
+	wg.Add(2)
+	go srv.SendEmail(&bookings)
+	go srv.PrintBookings(&bookings)
 
-	fmt.Println("\n\n***************************")
-	fmt.Printf("\n\nGUESTLIST: %v\n\n", hlp.CreateGuestList(&bookings))
-	fmt.Println("***************************")
-
-	fmt.Println("\n\n***************************")
-	fmt.Printf("\n\nBOOKINGS: %v\n\n", bookings)
-	fmt.Println("***************************")
-
+	wg.Wait()
 }

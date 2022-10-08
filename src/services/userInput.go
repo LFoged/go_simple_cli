@@ -39,3 +39,11 @@ func GetUserNumTickets() int {
 
 	return userNumTickets
 }
+
+func MakeNewBooking() bool {
+	fmt.Println("\n\nWould you like to make a new booking? [y/n]")
+	var userNewBooking string
+	fmt.Scan(&userNewBooking)
+
+	return (strings.ToLower(strings.TrimSpace(userNewBooking)) == "y")
+}
