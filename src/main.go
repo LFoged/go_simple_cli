@@ -36,15 +36,10 @@ func main() {
 		fmt.Println("\n\n_______________________________________")
 	}
 
-	fmt.Println("\n\nWE'RE SOLD OUT!!!")
-
-	guestList := []string{}
-	for index, booking := range bookings {
-		guestList = append(guestList, fmt.Sprintf("%d-%s--%d_tickets_", index+1, booking.Name, len(booking.Tickets)))
-	}
+	fmt.Println("\n\nWE'RE FULLY BOOKED!!!")
 
 	fmt.Println("\n\n***************************")
-	fmt.Printf("\n\nGUESTLIST: %v\n\n", guestList)
+	fmt.Printf("\n\nGUESTLIST: %v\n\n", srv.CreateGuestList(&bookings))
 	fmt.Println("***************************")
 
 	fmt.Println("\n\n***************************")
