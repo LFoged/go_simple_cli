@@ -25,7 +25,7 @@ func GetUserInput(t string) string {
 	userInput = strings.TrimSpace(userInput)
 
 	if !hlp.ValidStrLen(userInput, 2) || t == "email" && !hlp.ValidEmail(userInput) {
-		fmt.Println("\n\nInvalid input.\nNames must be longer than 2 letters, and emails must be correctly formatted.")
+		fmt.Println("\n\nInvalid input.\nNames must > 2 chars.\nEmails must be 6-50 chars and contain an '@'.")
 		return GetUserInput(t)
 	}
 
