@@ -1,24 +1,11 @@
 package services
 
 import (
+	hlp "booking_app_yt/src/helpers"
 	"fmt"
-	"math/rand"
-	"strconv"
-	"time"
 )
 
-func createTickets(numTickets *int) []string {
-	userTickets := []string{}
-	for i := 0; i < *numTickets; i++ {
-		rand.Seed(time.Now().UnixNano())
-		ticketId := rand.Intn(9999999)
-		userTickets = append(userTickets, strconv.Itoa(ticketId))
-	}
-
-	return userTickets
-}
-
-func IssueTickets(remainingTickets *int) ([]string, *int) {
+func IssueTickets(remainingTickets *int) ([]int, *int) {
 	userNumTickets := GetUserNumTickets()
 
 	if userNumTickets < 1 || userNumTickets > *remainingTickets {
@@ -26,7 +13,7 @@ func IssueTickets(remainingTickets *int) ([]string, *int) {
 		return IssueTickets(remainingTickets)
 	}
 
-	userTickets := createTickets(&userNumTickets)
+	userTickets := hlp.CreateTickets(&userNumTickets)
 
 	return userTickets, &userNumTickets
 }
