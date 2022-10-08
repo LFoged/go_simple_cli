@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-var wg = sync.WaitGroup{}
+func PrintBookings(bookings *map[int]mdl.Booking, wg *sync.WaitGroup) {
+	defer wg.Done()
 
-func PrintBookings(bookings *map[int]mdl.Booking) {
 	fmt.Println("\nPrinting guestlist...")
 	time.Sleep(2 * time.Second)
 	fmt.Println("\n\n***************************")
@@ -20,12 +20,11 @@ func PrintBookings(bookings *map[int]mdl.Booking) {
 	time.Sleep(1 * time.Second)
 	fmt.Println("\nPrinting bookings...")
 	for k, v := range *bookings {
+		wg.Add(1)
 		time.Sleep(2 * time.Second)
 		fmt.Println("\n\n***************************")
 		fmt.Printf("\nBOOKING: %d\nName:%s | Email: %s\nTickets:%v\n", k, v.Name, v.Email, v.Tickets)
 		fmt.Println("\n***************************")
-
+		wg.Wait()
 	}
-
-	wg.Done()
 }

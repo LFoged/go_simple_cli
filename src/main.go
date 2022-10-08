@@ -1,7 +1,7 @@
 package main
 
 import (
-	"booking_app_yt/src/helpers"
+	hlp "booking_app_yt/src/helpers"
 	mdl "booking_app_yt/src/models"
 	srv "booking_app_yt/src/services"
 	"fmt"
@@ -27,7 +27,7 @@ func main() {
 		fmt.Println("\nTickets issued!")
 
 		userEmail := srv.GetUserInput("email")
-		bookingRef := helpers.GenRandInt("bookingRef")
+		bookingRef := hlp.GenRandInt("bookingRef")
 		userBooking := mdl.Booking{
 			BookingRef:   bookingRef,
 			Name:         username,
@@ -51,8 +51,8 @@ func main() {
 
 	// time delay
 	wg.Add(2)
-	go srv.SendEmail(&bookings)
-	go srv.PrintBookings(&bookings)
+	go srv.SendEmail(&bookings, &wg)
+	go srv.PrintBookings(&bookings, &wg)
 
 	wg.Wait()
 }
